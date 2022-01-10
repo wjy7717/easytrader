@@ -48,6 +48,15 @@ class RemoteClient:
             raise Exception(response.json()["error"])
         return response.json()
 
+    def connect(self, exe_path=None, **kwargs):
+        params = locals().copy()
+        params.pop("self")
+        params["broker"] = self._broker
+        response = self._s.post(self._api + "/connect", json=params)
+        if response.status_code >= 300:
+            raise Exception(response.json()["error"])
+        return response.json()
+
     @property
     def balance(self):
         return self.common_get("balance")

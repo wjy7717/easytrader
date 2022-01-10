@@ -36,6 +36,18 @@ def post_prepare():
     return jsonify({"msg": "login success"}), 201
 
 
+@app.route("/connect", methods=["POST"])
+@error_handle
+def post_connect():
+    json_data = request.get_json(force=True)
+
+    user = api.use(json_data.pop("broker"))
+    user.connect(**json_data)
+
+    global_store["user"] = user
+    return jsonify({"msg": "connect success"}), 201
+
+
 @app.route("/balance", methods=["GET"])
 @error_handle
 def get_balance():
