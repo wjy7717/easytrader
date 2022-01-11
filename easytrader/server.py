@@ -43,6 +43,7 @@ def post_connect():
 
     user = api.use(json_data.pop("broker"))
     user.connect(**json_data)
+    user.enable_type_keys_for_editor()
 
     global_store["user"] = user
     return jsonify({"msg": "connect success"}), 201
