@@ -462,13 +462,15 @@ class ClientTrader(IClientTrader):
 
         self.wait(0.1)
 
-        self._type_edit_control_keys(
-            self._config.TRADE_PRICE_CONTROL_ID,
-            easyutils.round_price_by_code(price, code),
-        )
-        self._type_edit_control_keys(
-            self._config.TRADE_AMOUNT_CONTROL_ID, str(int(amount))
-        )
+        if price != 0:
+            self._type_edit_control_keys(
+                self._config.TRADE_PRICE_CONTROL_ID,
+                easyutils.round_price_by_code(price, code),
+            )
+        if amount != 0:
+            self._type_edit_control_keys(
+                self._config.TRADE_AMOUNT_CONTROL_ID, str(int(amount))
+            )
 
     def _set_market_trade_params(self, security, amount, limit_price=None):
         self._type_edit_control_keys(
