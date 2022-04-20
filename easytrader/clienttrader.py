@@ -212,7 +212,7 @@ class ClientTrader(IClientTrader):
 
     @perf_clock
     def buy(self, security, price, amount, **kwargs):
-        self._switch_left_menus(["买入[F1]"])
+        self._switch_left_menus_by_shortcut('{F1}')
 
         return self.trade(security, price, amount)
 
