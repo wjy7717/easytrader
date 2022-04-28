@@ -113,9 +113,10 @@ class Copy(BaseStrategy):
                         editor.select()
                         editor.type_keys(captcha_num)  # 模拟输入验证码
 
-                        self._trader.wait(0.1)
+                        self._trader.wait(0.3)
                         self._trader.app.top_window().set_focus()
-                        pywinauto.keyboard.SendKeys("{ENTER}")  # 模拟发送enter，点击确定
+                        self._trader.app.top_window().type_keys("{ENTER}")  # 模拟发送enter，点击确定
+                        self._trader.wait(0.1)
                         try:
                             if dialog.exists() is False:
                                 found = True

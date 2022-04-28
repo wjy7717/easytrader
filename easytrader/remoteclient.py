@@ -115,3 +115,6 @@ class RemoteClient:
         if response.status_code >= 300:
             raise Exception(response.json()["error"])
         return response.json()
+
+    def cancel_buy_entrusts(self):
+        return self.common_get("cancel_buy_entrusts")

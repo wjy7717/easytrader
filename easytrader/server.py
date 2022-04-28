@@ -135,6 +135,13 @@ def post_cancel_entrust():
     return jsonify(res), 201
 
 
+@app.route("/cancel_buy_entrusts", methods=["GET"])
+@error_handle
+def get_cancel_buy_entrusts():
+    user = global_store["user"]
+    res = user.cancel_buy_entrusts()
+    return jsonify(res), 201
+
 @app.route("/exit", methods=["GET"])
 @error_handle
 def get_exit():

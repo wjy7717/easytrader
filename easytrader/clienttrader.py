@@ -175,6 +175,17 @@ class ClientTrader(IClientTrader):
                 return self._handle_pop_dialogs()
         return {"message": "委托单状态错误不能撤单, 该委托单可能已经成交或者已撤"}
 
+    def cancel_buy_entrusts(self):
+        self.refresh()
+        self._switch_left_menus(["撤单[F3]"])
+        try:
+            self._app.top_window().child_window(
+                control_id=self._config.TRADE_CANCEL_BUY_ENTRUST_CONTROL_ID, class_name="Button", title_re='撤买'
+            ).click()
+        except:
+            pass
+        return self._get_grid_data(self._config.COMMON_GRID_CONTROL_ID)
+
     def cancel_all_entrusts(self):
         self.refresh()
         self._switch_left_menus(["撤单[F3]"])
