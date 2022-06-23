@@ -41,11 +41,11 @@ class UniversalClientTrader(clienttrader.BaseLoginClientTrader):
                 except:
                     self.wait(1)
 
-            self.wait(1)
-            self._app.window(handle=login_window).Edit1.set_focus()
-            self._app.window(handle=login_window).Edit1.type_keys(user)
-
-            self._app.window(handle=login_window).button7.click()
+            # self.wait(1)
+            # self._app.window(handle=login_window).Edit1.set_focus()
+            # self._app.window(handle=login_window).Edit1.type_keys(user)
+            #
+            # self._app.window(handle=login_window).button7.click()
 
             # detect login is success or not
             # self._app.top_window().wait_not("exists", 100)

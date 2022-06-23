@@ -176,15 +176,16 @@ class ClientTrader(IClientTrader):
         return {"message": "委托单状态错误不能撤单, 该委托单可能已经成交或者已撤"}
 
     def cancel_buy_entrusts(self):
+        self._switch_left_menus_by_shortcut('{F3}')
         self.refresh()
-        self._switch_left_menus(["撤单[F3]"])
         try:
             self._app.top_window().child_window(
                 control_id=self._config.TRADE_CANCEL_BUY_ENTRUST_CONTROL_ID, class_name="Button", title_re='撤买'
-            ).click()
+            ).click_input()
+            return {"message": "success"}
         except:
             pass
-        return self._get_grid_data(self._config.COMMON_GRID_CONTROL_ID)
+        return {"message": "委托单状态错误不能撤单, 该委托单可能已经成交或者已撤"}
 
     def cancel_all_entrusts(self):
         self.refresh()
@@ -424,12 +425,8 @@ class ClientTrader(IClientTrader):
 
     def trade(self, security, price, amount):
         self._set_trade_params(security, price, amount)
-
         self._submit_trade()
-
-        return self._handle_pop_dialogs(
-            handler_class=pop_dialog_handler.TradePopDialogHandler
-        )
+        return {"message": "success"}
 
     def _click(self, control_id):
         self._app.top_window().child_window(
@@ -438,10 +435,12 @@ class ClientTrader(IClientTrader):
 
     @perf_clock
     def _submit_trade(self):
-        time.sleep(0.2)
-        self._main.child_window(
-            control_id=self._config.TRADE_SUBMIT_CONTROL_ID, class_name="Button"
-        ).click()
+        time.sleep(0.1)
+        self._app.top_window().child_window(
+            control_id=self._config.TRADE_SUBMIT_CONTROL_ID,
+            class_name="Button",
+            title_re="买入",
+        ).click_input()
 
     @perf_clock
     def __get_top_window_pop_dialog(self):
@@ -463,15 +462,7 @@ class ClientTrader(IClientTrader):
         self._type_edit_control_keys(self._config.TRADE_SECURITY_CONTROL_ID, code)
 
         # wait security input finish
-        self.wait(0.1)
-
-        # 设置交易所
-        if security.lower().startswith("sz"):
-            self._set_stock_exchange_type("深圳Ａ股")
-        if security.lower().startswith("sh"):
-            self._set_stock_exchange_type("上海Ａ股")
-
-        self.wait(0.1)
+        self.wait(0.5)
 
         if price != 0:
             self._type_edit_control_keys(

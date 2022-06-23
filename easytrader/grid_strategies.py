@@ -80,6 +80,7 @@ class Copy(BaseStrategy):
         grid = self._get_grid(control_id)
         self._set_foreground(grid)
         grid.type_keys("^A^C", set_foreground=False)
+        self._trader.wait(0.1)
         content = self._get_clipboard_data()
         return self._format_grid_data(content)
 
